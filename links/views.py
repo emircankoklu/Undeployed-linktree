@@ -1,11 +1,13 @@
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST
 
 from .models import Link, SiteProfile
 
 
+@ensure_csrf_cookie
 def linktree_home(request):
 	selected_tab = request.GET.get("tab", "All")
 	all_active_links = Link.objects.filter(is_active=True).order_by("sort_order", "id")
